@@ -6,9 +6,7 @@ require_relative 'entry'
 
 class Bookie
   include CalculationsHelper
-
   attr_accessor :entries
-  include Comparable
 
   def initialize
     @entries = []
