@@ -1,8 +1,31 @@
 require 'date'
 
+module CalculationsHelper
+  def total(entries)
+    entries.map(&:money).inject(0, &:+)
+  end
+end
+
+class TaxCalculator
+  include CalculationsHelper
+  TAX_LEVEL = 2
+
+  def self.calculate(salaries)
+    TaxCalculator.new(salaries).calculate
+  end
+
+  def initialize(salaries)
+    @salaries = salaries
+  end
+
+  def calculate
+    total(@salaries) * TAX_LEVEL
+  end
+
+end
 
 class Bookie
-  TAX_LEVEL = 2
+  include CalculationsHelper
 
   attr_accessor :entries
   include Comparable
@@ -26,11 +49,7 @@ class Bookie
   end
 
   def tax_result
-    total(salaries) * TAX_LEVEL
-  end
-
-  def total(entries)
-    entries.map(&:money).inject(0, &:+)
+    TaxCalculator.calculate(salaries)
   end
 
   def expenses(from=nil, to=nil)
@@ -125,3 +144,4 @@ class VatCalculator
     entries.map(&:vat).inject(0, &:+)
   end
 end
+
