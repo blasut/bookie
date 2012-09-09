@@ -12,8 +12,11 @@ class Bookie
     @entries = []
   end
 
-  def add_entry(entry)
-    @entries << entry  
+  def add_entries(entries)
+    entries = Array(entries)
+    entries.each do |entry|
+      @entries << entry
+    end
   end
 
   def total_vat(from=nil, to=nil)
@@ -26,8 +29,8 @@ class Bookie
     (incomes_total - expenses_total - total_vat) - (tax_result)
   end
 
-  def tax_result
-    TaxCalculator.calculate(salaries)
+  def tax_result(from=nil, to=nil)
+    TaxCalculator.calculate(salaries(from, to))
   end
 
   def expenses(from=nil, to=nil)
@@ -50,9 +53,13 @@ class Bookie
     end
   end
 
-  def salaries
+  def salaries(from=nil, to=nil)
     @entries.select do |entry|
-      entry.salary?
+      if from && to
+         entry.salary? && within_range(from, to, entry.date)
+      else
+        entry.salary?
+      end
     end
   end
 

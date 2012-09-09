@@ -7,9 +7,9 @@ describe Bookie do
   let(:salary) { Entry.new(100, Date.new(2012, 10, 9), :salary) }
 
   before :each do
-    bookie.add_entry(income)
-    bookie.add_entry(expense)
-    bookie.add_entry(salary)
+    bookie.add_entries(income)
+    bookie.add_entries(expense)
+    bookie.add_entries(salary)
   end
 
   describe "saves a record" do
@@ -34,8 +34,8 @@ describe Bookie do
     let(:expense2) { Entry.new(500, Date.new(2012, 01, 9), :expense) }
 
     before :each do
-      bookie.add_entry(income2)
-      bookie.add_entry(expense2)
+      bookie.add_entries(income2)
+      bookie.add_entries(expense2)
     end
 
     it "the VAT result for the specified monthly period" do
@@ -48,6 +48,16 @@ describe Bookie do
       # salary * 2
       # Salary is 100
       bookie.tax_result.should == 200
+    end
+    
+    it "the tax result for a specific period" do
+      # salary * 2
+      salary = Entry.new(100, Date.new(2012, 04, 10), :salary)
+      salary2 = Entry.new(100, Date.new(2012, 06, 30), :salary)
+      salary3 = Entry.new(100, Date.new(2012, 07, 25), :salary)
+      bookie.add_entries([salary, salary2, salary3])
+      # Salary is 300
+      bookie.tax_result(Date.new(2012, 04, 01), Date.new(2012, 07, 31)).should == 600
     end
 
     it "money left after VAT and taxes" do
