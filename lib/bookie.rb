@@ -23,10 +23,10 @@ class Bookie
     VatCalculator.calculate(incomes(from, to), expenses(from, to))
   end
 
-  def money_left
-    incomes_total = total(incomes)
-    expenses_total = total(expenses)
-    (incomes_total - expenses_total - total_vat) - (tax_result)
+  def money_left(from=nil, to=nil)
+    incomes_total = total(incomes(from, to))
+    expenses_total = total(expenses(from, to))
+    (incomes_total - expenses_total - total_vat(from, to)) - (tax_result(from, to))
   end
 
   def tax_result(from=nil, to=nil)

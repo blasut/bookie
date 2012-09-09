@@ -68,5 +68,13 @@ describe Bookie do
       # Minus salary * 2 : 7000
       bookie.money_left.should == 7000
     end
+
+    it "money left after VAT and taxes for a specific period" do
+      income = Entry.new(5000, Date.new(2012, 05, 8), :income)
+      expense = Entry.new(500, Date.new(2012, 06, 9), :expense) 
+      #let(:salary) { Entry.new(100, Date.new(2012, 10, 9), :salary) }
+      bookie.add_entries([income, expense])
+      bookie.money_left(Date.new(2012, 04, 01), Date.new(2012, 07, 31)).should == 3600
+    end
   end
 end
