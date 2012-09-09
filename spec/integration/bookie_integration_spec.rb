@@ -21,9 +21,16 @@ describe Bookie do
   describe "within range" do
     it "should find stuff within a date range" do
       from = Date.new(2012, 01, 9)
-      date = Date.new(2012, 02, 5)
       to = Date.new(2012, 03, 9)
+      date = Date.new(2012, 02, 5)
       bookie.within_range(from, to, date).should == true
+    end
+    
+    it "should not find stuff outside of a date range" do
+      from = Date.new(2012, 01, 9)
+      to = Date.new(2012, 03, 9)
+      date = Date.new(2012, 07, 5)
+      bookie.within_range(from, to, date).should == false
     end
   end
 
