@@ -1,8 +1,8 @@
 require 'date'
-require_relative 'calculations_helper'
-require_relative 'tax_calculator'
-require_relative 'vat_calculator'
-require_relative 'entry'
+require_relative 'bookie/calculations_helper'
+require_relative 'bookie/tax_calculator'
+require_relative 'bookie/vat_calculator'
+require_relative 'bookie/entry'
 
 class Bookie
   include CalculationsHelper

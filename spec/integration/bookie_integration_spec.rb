@@ -1,4 +1,4 @@
-require_relative '../../lib/bookie/bookie'
+require_relative '../../lib/bookie'
 
 describe Bookie do
   let(:bookie) { Bookie.new }
