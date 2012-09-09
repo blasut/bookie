@@ -1,5 +1,6 @@
 require 'date'
 
+
 class Bookie
   TAX_LEVEL = 2
 
@@ -15,12 +16,7 @@ class Bookie
   end
 
   def total_vat(from=nil, to=nil)
-    # Get all the entries within the dates
-    # Calculate the total vat from the income
-    # And subtract the total vat from the expenes
-    incomes = total_vat_per_entry_group(incomes(from, to))
-    expenses = total_vat_per_entry_group(expenses(from, to))
-    incomes - expenses
+    VatCalculator.calculate(incomes(from, to), expenses(from, to))
   end
 
   def money_left
@@ -35,10 +31,6 @@ class Bookie
 
   def total(entries)
     entries.map(&:money).inject(0, &:+)
-  end
-
-  def total_vat_per_entry_group(entries)
-    entries.map(&:vat).inject(0, &:+)
   end
 
   def expenses(from=nil, to=nil)
@@ -108,3 +100,28 @@ class Entry
   end
 end
 
+class VatCalculator
+  def self.calculate(incomes, expenses)
+    VatCalculator.new(incomes, expenses).calculate
+  end
+  
+  def initialize(incomes, expenses)
+    @incomes = incomes
+    @expenses = expenses
+  end
+
+  def calculate
+    # Get all the entries within the dates
+    # Calculate the total vat from the income
+    # And subtract the total vat from the expenes
+    incomes = total_vat_per_entry_group(@incomes)
+    expenses = total_vat_per_entry_group(@expenses)
+    incomes - expenses
+  end
+
+  private
+
+  def total_vat_per_entry_group(entries)
+    entries.map(&:vat).inject(0, &:+)
+  end
+end
