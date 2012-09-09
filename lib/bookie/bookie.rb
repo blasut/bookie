@@ -1,6 +1,8 @@
 require 'date'
 
 class Bookie
+  TAX_LEVEL = 2
+
   attr_accessor :entries
   include Comparable
 
@@ -24,11 +26,11 @@ class Bookie
   def money_left
     incomes_total = total(incomes)
     expenses_total = total(expenses)
-    (incomes_total - expenses_total - total_vat) - (total(salaries) * 2)
+    (incomes_total - expenses_total - total_vat) - (tax_result)
   end
 
   def tax_result
-    total(salaries) * 2
+    total(salaries) * TAX_LEVEL
   end
 
   def total(entries)
@@ -73,6 +75,7 @@ class Bookie
 end
 
 class Entry
+  VAT_LEVEL = 0.2
   attr_reader :date, :money
 
   def initialize(money, date, type)
@@ -89,7 +92,7 @@ class Entry
   end
 
   def vat
-    @money * 0.2
+    @money * VAT_LEVEL
   end
 
   def income?
