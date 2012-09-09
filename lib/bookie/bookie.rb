@@ -1,10 +1,6 @@
 require 'date'
-
-module CalculationsHelper
-  def total(entries)
-    entries.map(&:money).inject(0, &:+)
-  end
-end
+require_relative 'calculations_helper'
+require_relative 'tax_calculator'
 
 class Bookie
   include CalculationsHelper
@@ -124,22 +120,5 @@ class VatCalculator
 
   def total_vat_per_entry_group(entries)
     entries.map(&:vat).inject(0, &:+)
-  end
-end
-
-class TaxCalculator
-  include CalculationsHelper
-  TAX_LEVEL = 2
-
-  def self.calculate(salaries)
-    TaxCalculator.new(salaries).calculate
-  end
-
-  def initialize(salaries)
-    @salaries = salaries
-  end
-
-  def calculate
-    total(@salaries) * TAX_LEVEL
   end
 end
