@@ -1,4 +1,3 @@
-require 'date'
 require_relative 'bookie/calculations_helper'
 require_relative 'bookie/tax_calculator'
 require_relative 'bookie/vat_calculator'
@@ -62,10 +61,4 @@ class Bookie
       end
     end
   end
-
-  def within_range(from, to, date)
-    datetime = date.to_datetime
-    datetime >= from.to_datetime && datetime <= to.to_datetime
-  end
-
 end
