@@ -10,7 +10,7 @@ describe Bookie do
     bookie.add_entries([income, expense, salary])
   end
 
-  describe "saves a record" do
+  describe "keep tracks of records" do
     it "should handle multiple kinds of entries" do
       bookie.salaries.should == [salary]
       bookie.expenses.should == [expense]
