@@ -7,8 +7,8 @@ class Bookie
   include CalculationsHelper
   attr_accessor :entries
 
-  def initialize
-    @entries = []
+  def initialize(entries=[])
+    @entries = entries
   end
 
   def add_entries(entries)
